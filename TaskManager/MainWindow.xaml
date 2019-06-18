@@ -1,0 +1,225 @@
+﻿<Window x:Class="TaskManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskManager"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Task manager" 
+        Height="660" 
+        Width="800" 
+        Background="#62E4C2"
+        Closing="Window_Closing">
+  
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" 
+                              MinWidth="391" 
+                              MaxWidth="443"/>
+            <ColumnDefinition Width="Auto" 
+                              MinWidth="401" 
+                              MaxWidth="443"/>
+        </Grid.ColumnDefinitions>
+        <materialDesign:Card Margin="20" 
+                             materialDesign:ShadowAssist.ShadowDepth="Depth5" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Top">
+            <Calendar Name="calendar"/>
+        </materialDesign:Card>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <materialDesign:Card Margin="30,30,45,30" 
+                                 Padding="20 0 0 20" 
+                                 materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                <StackPanel Grid.Row="0" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center">
+                    <TextBlock  Text="Время: " 
+                                Margin="20 20 0 0 "/>
+                    <materialDesign:TimePicker Name="timePicker" 
+                                               materialDesign:ShadowAssist.ShadowDepth="Depth5"/>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <StackPanel Grid.Row="1">
+                <materialDesign:Card Margin="112,0,109,30" 
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth5" 
+                                     Height="100">
+                    <StackPanel HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Margin="10">
+                        <TextBlock  Text="Тип:"/>
+                        <RadioButton Name="downloadRadioButton"  
+                                     GroupName="type" 
+                                     Margin="30 0 10 0" 
+                                     Content="скачать файл" 
+                                     Checked="DownloadChecked"/>
+                        <RadioButton Name="moveRadioButton" 
+                                     GroupName="type" 
+                                     Margin="30 0 10 0" 
+                                     Content="переместить каталог"
+                                     Checked="CatalogChecked"/>
+                        <RadioButton Name="emailRadioButton"  
+                                     GroupName="type" 
+                                     Margin="30 0 10 0" 
+                                     Content="отправить по mail" 
+                                     Checked="EmailChecked" />
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2">
+                <materialDesign:Card Margin="30 0 30 30" 
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth5"
+                                     Height="120"
+                                     Width="200">
+                    <StackPanel HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Margin="10">
+                        <TextBlock Text="Периодичность: "/>
+                        <RadioButton Name="singlyRadioButton" 
+                                     GroupName="periodicity" 
+                                     Margin="30 0 10 0" 
+                                     Content="однократно"/>
+                        <RadioButton Name="dailyRadioButton" 
+                                     GroupName="periodicity"
+                                     Margin="30 0 10 0" 
+                                     Content="ежедневно"/>
+                        <RadioButton Name="weeklyRadioButton" 
+                                     GroupName="periodicity" 
+                                     Margin="30 0 10 0" 
+                                     Content="ежемесячно"/>
+                        <RadioButton Name="annuallyRadioButton" 
+                                     GroupName="periodicity" 
+                                     Margin="30 0 10 0" 
+                                     Content="ежегодно"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" 
+                        Margin="0,100,20,10" 
+                        Visibility="Collapsed"
+                        Name="dowloadStackPanel" 
+                        Grid.RowSpan="2">
+                <materialDesign:Card Grid.Row="3"  
+                                     Margin="10,30,0,0" 
+                                     Padding="20" 
+                                     HorizontalAlignment="Left" 
+                                     Width="372" 
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Источник (Url):  " 
+                                       Padding="5"/>
+                            <TextBox Width="280" Name="urlTextBox"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" 
+                                    Margin="0 30 0 0">
+                            <TextBlock Text="Назначение: " 
+                                       Padding="5"/>
+                            <TextBox  Width="280" 
+                                      Name="whereDownloadTextBox" 
+                                      Text="Щелкните дважды..."  
+                                      Foreground="LightGray"
+                                      Padding="10 1 0 1" 
+                                      FontSize="10"
+                                      MouseDoubleClick="WhereDownloadTextBoxMouseDoubleClick"/>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3"  Margin="10,30,0,0"  Visibility="Collapsed" Name="moveStackPanel">
+                <materialDesign:Card Grid.Row="3" 
+                                     Margin="5" 
+                                     Padding="20" 
+                                     HorizontalAlignment="Left" 
+                                     Width="372" 
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Источник:  " Padding="5"/>
+                            <TextBox Width="280" 
+                                     Name="whatCopyCatalogTextBox" 
+                                     Text="Щелкните дважды..." 
+                                     Foreground="LightGray" 
+                                     Padding="30 1 0 1" 
+                                     FontSize="10"
+                                     MouseDoubleClick="WhatCopyCatalogTextBoxMouseDoubleClick"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 30 0 0">
+                            <TextBlock Text="Назначение:  " Padding="5"/>
+                            <TextBox Width="280" 
+                                     Name="whereCopyCatalogTextBox"
+                                     Text="Щелкните дважды..." 
+                                     Foreground="LightGray"
+                                     Padding="30 1 0 1" 
+                                     FontSize="10"
+                                     MouseDoubleClick="WhereCopyCatalogTextBoxMouseDoubleClick"/>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" 
+                        Visibility="Collapsed"
+                        Name="emailStackPanel">
+
+                <materialDesign:Card Padding="20" 
+                                     Margin="5,5,50,5"
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Кому:  " 
+                                       Padding="5"/>
+                            <TextBox Width="280" 
+                                     Name="toEmailTextBox"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 30 0 0" >
+                            <TextBlock Text="Тема:  " 
+                                       Padding="5" />
+                            <TextBox Width="280"
+                                     Name="thema"/>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+                <Button Name="attachmentButton" 
+                        Click="AttachmentButtonClick"  
+                        Margin="130,10,241,10" 
+                        Background="GreenYellow" 
+                        materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                    <Image Source="http://s1.iconbird.com/ico/0612/vistabasesoftwareicons/w256h2561339252829PaperClip4Black.png" 
+                           Height="26" Width="20"/>
+                </Button>
+            </StackPanel>
+            <Button Grid.Row="3" 
+                    Name="taskButton" 
+                    Click="TaskButtonClick" 
+                    Content="Запланировать" 
+                    Margin="202,167,59,-10"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth5"
+                    materialDesign:ShadowAssist.ShadowEdges="All"/>
+        </Grid>
+
+    </Grid>
+</Window>
